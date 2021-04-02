@@ -1,0 +1,134 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "anagram",
+            "cwd": "anagram",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "cmdline",
+            "cwd": "cmdline",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "httpserver",
+            "cwd": "httpserver",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "its_all_about_you",
+            "cwd": "its_all_about_you",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "mini",
+            "cwd": "mini",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "mini_with_style",
+            "cwd": "mini_with_style",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "portmanteaux",
+            "cwd": "portmanteaux",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "portmanteaux_simple",
+            "cwd": "portmanteaux_simple",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "search_form",
+            "cwd": "search_form",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "todo",
+            "cwd": "todo",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "todo_with_delete",
+            "cwd": "todo_with_delete",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "async-await",
+            "cwd": "futures/async-await",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "async-await-catch-error",
+            "cwd": "futures/async-await-catch-error",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "futures-api",
+            "cwd": "futures/futures-api",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "futures-api-catch-error",
+            "cwd": "futures/futures-api-catch-error",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "sequential-processing",
+            "cwd": "futures/sequential-processing",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "waiting-on-futures",
+            "cwd": "futures/waiting-on-futures",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "last_positive",
+            "cwd": "streams/last_positive",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "read_file",
+            "cwd": "streams/read_file",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "simple_stream",
+            "cwd": "streams/simple_stream",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "throw_error",
+            "cwd": "streams/throw_error",
+            "request": "launch",
+            "type": "dart"
+        }
+    ]
+}
