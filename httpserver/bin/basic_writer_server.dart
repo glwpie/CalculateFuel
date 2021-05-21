@@ -9,7 +9,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'FuelFunctions.dart';
 
@@ -48,14 +47,12 @@ Future handlePost(HttpRequest req) async {
         print(decodedJson['lapTime']);
         print(decodedJson['raceTime']);
         print(decodedJson['fuelLap']);
-        int result = calculateFuel(decodedJson);
+        var result = calculateFuel(decodedJson);
         req.response
           ..statusCode = HttpStatus.ok
           ..write(result);
       }
-    } catch (e) {
-      req.response
-        ..statusCode = HttpStatus.internalServerError
+    } catch (e) { req.response ..statusCode = HttpStatus.internalServerError
         ..write('Exception during file I/O: $e.');
     }
   } else {

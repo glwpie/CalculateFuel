@@ -22,48 +22,21 @@ void main() {
 }
 
 final demos = [
-  // Demo(
-  //   name: 'Dumb Request',
-  //   route: '/dumb_request',
-  //   builder: (context) => DumbRequestDemo(
-  //   ),
-  // ),
+
   Demo(
-    name: 'Calculate Fuel',
+    name: 'Calculate Fuel with Web Request',
     route: '/calculateFuel',
     builder: (context) => CalculateFuel(
       //httpClient: httpClient,
     ),
   ),
   Demo(
-    name: 'Calculate Gas',
+    name: 'Calculate Gas Offline',
     route: '/calculate_gas',
     builder: (context) => CalculateGas(
       //httpClient: httpClient,
     ),
   ),
-  //   Demo(
-  //   name: 'Sign in with HTTP',
-  //   route: '/signin_http',
-  //   builder: (context) => SignInHttpDemo(
-  //     httpClient: httpClient,
-  //   ),
-  // ),
-  // Demo(
-  //   name: 'Autofill',
-  //   route: '/autofill',
-  //   builder: (context) => AutofillDemo(),
-  // ),
-  // Demo(
-  //   name: 'Form widgets',
-  //   route: '/form_widgets',
-  //   builder: (context) => FormWidgetsDemo(),
-  // ),
-  // Demo(
-  //   name: 'Validation',
-  //   route: '/validation',
-  //   builder: (context) => FormValidationDemo(),
-  // ),
 ];
 
 class FormApp extends StatelessWidget {

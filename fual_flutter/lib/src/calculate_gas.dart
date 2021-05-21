@@ -4,30 +4,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+
 part 'calculate_gas.g.dart';
 
 @JsonSerializable()
 class FormData {
-  String? startingFuel = '60';
-  String? lapTime = '1:30';
-  String? lapMin = '1';
-  String? lapSec = '30';
-  String? raceTime = '40';
-  String? fuelLap = '4.1';
+  TimeOfDay? lapTime;
+  TimeOfDay? raceTime;
+  double? fuelLap;
+  double? startingFuel;
 
   FormData({
-    this.startingFuel = '60',
-    this.lapTime = '1:30',
-    this.raceTime = '40',
-    this.fuelLap = '4.1',
-    this.lapSec = '30',
-    this.lapMin = '1',
+    this.startingFuel,
+    this.lapTime,
+    this.raceTime,
+    this.fuelLap,
   });
-
-  factory FormData.fromJson(Map<String, dynamic> json) =>
-      _$FormDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$FormDataToJson(this);
 }
 
 class CalculateGas extends StatefulWidget {
@@ -36,8 +28,13 @@ class CalculateGas extends StatefulWidget {
 }
 
 class _CalculateGasState extends State<CalculateGas> {
-  FormData formData = FormData();
-
+  FormData formData = FormData(
+    lapTime: TimeOfDay(hour: 1, minute: 30),
+    raceTime: TimeOfDay(hour: 00, minute: 40),
+    startingFuel: 60,
+    fuelLap: 4.1,
+  );
+  var textStrutStyle = new StrutStyle();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,109 +48,94 @@ class _CalculateGasState extends State<CalculateGas> {
             child: Column(
               children: [
                 ...[
-                  TextFormField(
-                    initialValue: '60',
-                    autofocus: true,
-                    textInputAction: TextInputAction.next,
-                    decoration: InputDecoration(
-                      filled: true,
-                      labelText: 'Starting Fuel',
-                    ),
-                    onChanged: (value) {
-                      formData.startingFuel = value;
-                    },
-                    onSaved: (value) {
-                      formData.startingFuel = value;
-                    },
+                  Text(
+                    'Starting Fuel: ' + formData.startingFuel!.toString(),
+                    strutStyle: textStrutStyle,
                   ),
-                  // TextFormField(
-                  //   initialValue: '1:30',
-                  //   decoration: InputDecoration(
-                  //     filled: true,
-                  //     labelText: 'Lap Time',
-                  //   ),
-                  //   obscureText: false,
-                  //   onChanged: (value) {
-                  //     formData.lapTime = value;
-                  //   },
-                  //   onSaved: (value) {
-                  //     formData.lapTime = value;
-                  //   },
-                  // ),
-                  TextFormField(
-                    initialValue: '1',
-                    decoration: InputDecoration(
-                      filled: true,
-                      labelText: 'Lap Time Min',
-                    ),
-                    obscureText: false,
+                  Slider(
+                    value: formData.startingFuel!,
+                    min: 50,
+                    max: 80,
+                    divisions: 30,
+                    label: formData.startingFuel!.round().toString(),
                     onChanged: (value) {
-                      formData.lapMin = value;
-                    },
-                    onSaved: (value) {
-                      formData.lapMin = value;
-                    },
-                  ),
-                  TextFormField(
-                    initialValue: '30',
-                    decoration: InputDecoration(
-                      filled: true,
-                      labelText: 'Lap Time sec',
-                    ),
-                    obscureText: false,
-                    onChanged: (value) {
-                      formData.lapSec = value;
-                    },
-                    onSaved: (value) {
-                      formData.lapSec = value;
-                    },
-                  ),
-                  TextFormField(
-                    initialValue: '40',
-                    decoration: InputDecoration(
-                      filled: true,
-                      labelText: 'Race Time',
-                    ),
-                    obscureText: false,
-                    onChanged: (value) {
-                      formData.raceTime = value;
-                    },
-                    onSaved: (value) {
-                      formData.raceTime = value;
-                    },
-                  ),
-                  TextFormField(
-                    initialValue: '4.1',
-                    decoration: InputDecoration(
-                      filled: true,
-                      labelText: 'Fuel Lap',
-                    ),
-                    obscureText: false,
-                    onChanged: (value) {
-                      formData.fuelLap = value;
-                    },
-                    onSaved: (value) {
-                      formData.fuelLap = value;
+                      setState(() {
+                        formData.startingFuel = value;
+                      });
                     },
                   ),
                   TextButton(
-                    child: Text('Do Maths'),
+                      child: Text('Race Time: ' +
+                          formData.raceTime!.hour.toString() +
+                          ':' +
+                          formData.raceTime!.minute.toString()),
+                      onPressed: () async {
+                        formData.raceTime = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay(hour: 00, minute: 40),
+                          initialEntryMode: TimePickerEntryMode.dial,
+                          builder: (BuildContext context, Widget? child) {
+                            return MediaQuery(
+                              data: MediaQuery.of(context)
+                                  .copyWith(alwaysUse24HourFormat: true),
+                              child: child!,
+                            );
+                          },
+                        );
+                      }),
+                  TextButton(
+                      child: Text('lap Time: ' +
+                          formData.lapTime!.hour.toString() +
+                          ':' +
+                          formData.lapTime!.minute.toString()),
+                      onPressed: () async {
+                        formData.lapTime = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay(hour: 1, minute: 30),
+                          initialEntryMode: TimePickerEntryMode.dial,
+                          builder: (BuildContext context, Widget? child) {
+                            return MediaQuery(
+                              data: MediaQuery.of(context)
+                                  .copyWith(alwaysUse24HourFormat: true),
+                              child: child!,
+                            );
+                          },
+                        );
+                      }),
+                  Text(
+                    'Fuel Lap literes: ' + formData.fuelLap!.toString(),
+                  ),
+                  Slider(
+                    value: formData.fuelLap!,
+                    min: 2,
+                    max: 17,
+                    divisions: 150,
+                    label: formData.fuelLap!.toString(),
+                    onChanged: (value) {
+                      setState(() {
+                        formData.fuelLap = value;
+                      });
+                    },
+                  ),
+                  TextButton(
+                    child: Text('Do Fancy Math'),
                     onPressed: () async {
-                      int intRaceTime = int.parse(formData.raceTime!);
-                      double doubleFuelLap = double.parse(formData.fuelLap!);
-                      int intStartingFuel = int.parse(formData.startingFuel!);
+                      double doubleFuelLap = formData.fuelLap!;
 
-                      int intLapMin = _lapTimeMin(formData.lapTime!);
-                      int intLapSec = _lapTimeSec(formData.lapTime!);
-                      int intLapSeconds = _lapSeconds(intLapMin, intLapSec);
+                      int intLapSeconds = _lapSeconds(formData.lapTime!);
 
                       double doubleTotalLaps =
-                          _totalLaps(intRaceTime, intLapSeconds);
+                          _totalLaps(formData.raceTime!, intLapSeconds);
 
-                      int result = _fuelCalc(
-                          doubleTotalLaps, doubleFuelLap, intStartingFuel);
-
-                      _showDialog(result.toString());
+                      int result = _fuelCalc(doubleTotalLaps, doubleFuelLap,
+                          formData.startingFuel!);
+                      bool requiresMultiStop =
+                          _checkMultiPit(result, formData.startingFuel!);
+                      if (requiresMultiStop) {
+                        _showDialog(_buildMultiStopString(result, formData.startingFuel!));
+                      } else {
+                        _showDialog(result.toString());
+                      }
                     },
                   ),
                 ].expand(
@@ -188,24 +170,113 @@ class _CalculateGasState extends State<CalculateGas> {
   }
 }
 
-int _lapTimeMin(String lapTime) {
-  return int.parse(lapTime.split(':')[0]);
+int _lapSeconds(TimeOfDay lapTime) {
+  return (lapTime.hour * 60 + lapTime.minute);
 }
 
-int _lapTimeSec(String lapTime) {
-  return int.parse(lapTime.split(':')[1]);
-}
-
-int _lapSeconds(int intLapMin, int intLapSec) {
-  return (intLapMin * 60 + intLapSec);
-}
-
-double _totalLaps(int intRaceTime, int intLapSeconds) {
-  return ((intRaceTime * 60) / intLapSeconds);
+double _totalLaps(TimeOfDay raceTime, int intLapSeconds) {
+  return ((((raceTime.hour * 60) + raceTime.minute) * 60) / intLapSeconds);
 }
 
 int _fuelCalc(
-    double doubleTotalLaps, double doubleFuelLap, int intStartingFuel) {
+    double doubleTotalLaps, double doubleFuelLap, double intStartingFuel) {
   return (((doubleTotalLaps + 2) * doubleFuelLap) - intStartingFuel + 1)
       .round();
 }
+
+bool _checkMultiPit(int fuelCalc, double intStartingFuel) {
+  if (fuelCalc > intStartingFuel) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+String _buildMultiStopString(int remaingFuel, double startingFuel) {
+  int pitCounter = 0;
+  while (remaingFuel > startingFuel) {
+    remaingFuel = remaingFuel - startingFuel.truncate();
+    pitCounter++;
+  }
+  return "$pitCounter stop(s) $startingFuel L, last stop  $remaingFuel L";
+}
+
+ThemeData _buildShrineTheme() {
+  final ThemeData base = ThemeData.light();
+  return base.copyWith(
+    colorScheme: _shrineColorScheme,
+    toggleableActiveColor: shrinePink400,
+    accentColor: shrineBrown900,
+    primaryColor: shrinePink100,
+    buttonColor: shrinePink100,
+    scaffoldBackgroundColor: shrineBackgroundWhite,
+    cardColor: shrineBackgroundWhite,
+    textSelectionColor: shrinePink100,
+    errorColor: shrineErrorRed,
+    buttonTheme: const ButtonThemeData(
+      colorScheme: _shrineColorScheme,
+      textTheme: ButtonTextTheme.normal,
+    ),
+    primaryIconTheme: _customIconTheme(base.iconTheme),
+    textTheme: _buildShrineTextTheme(base.textTheme),
+    primaryTextTheme: _buildShrineTextTheme(base.primaryTextTheme),
+    accentTextTheme: _buildShrineTextTheme(base.accentTextTheme),
+    iconTheme: _customIconTheme(base.iconTheme),
+  );
+}
+
+IconThemeData _customIconTheme(IconThemeData original) {
+  return original.copyWith(color: shrineBrown900);
+}
+
+TextTheme _buildShrineTextTheme(TextTheme base) {
+  return base
+      .copyWith(
+        caption: base.caption?.copyWith(
+          fontWeight: FontWeight.w400,
+          fontSize: 14,
+          letterSpacing: defaultLetterSpacing,
+        ),
+        button: base.button?.copyWith(
+          fontWeight: FontWeight.w500,
+          fontSize: 14,
+          letterSpacing: defaultLetterSpacing,
+        ),
+      )
+      .apply(
+        fontFamily: 'Rubik',
+        displayColor: shrineBrown900,
+        bodyColor: shrineBrown900,
+      );
+}
+
+const ColorScheme _shrineColorScheme = ColorScheme(
+  primary: shrinePink400,
+  primaryVariant: shrineBrown900,
+  secondary: shrinePink50,
+  secondaryVariant: shrineBrown900,
+  surface: shrineSurfaceWhite,
+  background: shrineBackgroundWhite,
+  error: shrineErrorRed,
+  onPrimary: shrineBrown900,
+  onSecondary: shrineBrown900,
+  onSurface: shrineBrown900,
+  onBackground: shrineBrown900,
+  onError: shrineSurfaceWhite,
+  brightness: Brightness.light,
+);
+
+const Color shrinePink50 = Color(0xFFFEEAE6);
+const Color shrinePink100 = Color(0xFFFEDBD0);
+const Color shrinePink300 = Color(0xFFFBB8AC);
+const Color shrinePink400 = Color(0xFFEAA4A4);
+
+const Color shrineBrown900 = Color(0xFF442B2D);
+const Color shrineBrown600 = Color(0xFF7D4F52);
+
+const Color shrineErrorRed = Color(0xFFC5032B);
+
+const Color shrineSurfaceWhite = Color(0xFFFFFBFA);
+const Color shrineBackgroundWhite = Colors.white;
+
+const defaultLetterSpacing = 0.03;
